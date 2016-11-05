@@ -1,72 +1,39 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
+#include <sstream>
  
 using namespace std;
  
 void mezclar(int arreglo1[], int n1, int arreglo2[], int n2, int arreglo3[]);
 void mezcla(int vector[], int n);
+int construye_arreglo(int);
 
+std::vector<int> lista;
 
 
   
 int main(){
  
     int i, vector[] = {2, 3, 5, 7, 2, 6, 1, 5, 8, 3, 2};
-
-//Accedo al archivo
+    
+    int num;
 
     ifstream archivo("test_merge.txt", ios::in);
-    
-    char linea[128];
-    long contador = 0L;
 
     if(archivo.fail())
     cerr << "Error al abrir el archivo" << endl;
     else
     while(!archivo.eof())
     {
-        archivo.getline(linea, sizeof(linea));
-        cout << linea << endl;
+        archivo>>num;
+        lista.push_back(num);
     }
     archivo.close();
-
-
-        cout << "Lista desordenada\n";
-  
-    for(i = 0; i < 11; i++)
-        cout << vector[i] << " ";
-  
-    mezcla(vector, 11);
- 
-    cout << "\n";
-    cout << "Lista ordenada\n";
-  
-    for(i=0; i<11; i++)
-        cout << vector[i] << " ";
-    cout << "\n";
+    construye_arreglo(lista.size());  
     return 0;
-
-
-
 }
-//Obtiene los números de la cadena
-
-/*std::vector<std::string> split_istringstream(std::string linea) {
-    std::vector<std::string> resultado;
-    std::istringstream isstream(linea);
-    std::string palabra;
-
-    while(isstream >> palabra){
-        resultado.push_back(palabra);
-    }
-    return resultado;
-}
-*/
-//fin de la obtención
-
-
- 
 
  
 void mezclar(int arreglo1[], int n1, int arreglo2[], int n2, int arreglo3[]){
@@ -129,4 +96,34 @@ void mezcla(int vector[], int n){
         delete vector1;
         delete vector2;
     }    
+}
+
+int construye_arreglo(int tam)
+{
+    int vector[tam];
+    int i = 0;
+    while(!lista.empty())
+    {
+        vector[i]=lista[i];
+        lista.pop_back();
+        i++;
+    }
+    
+    cout << "Lista desordenada\n";
+  
+    for(i = 0; i < tam; i++)
+        cout << vector[i] << " ";
+
+
+    mezcla(vector, tam);
+
+    cout << "\n";
+    cout << "Lista ordenada\n";
+  
+    for(i=0; i<tam; i++)
+        cout << vector[i] << " ";
+    cout << "\n";
+
+
+    return 0;
 }
